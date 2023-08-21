@@ -3,9 +3,15 @@
 void Game::zmienne()
 {
 	this->window = nullptr;
-	this->enemySpawnTimerMax = 350;
+	this->enemySpawnTimerMax = 300;
 	this->skok = false;
-
+	this->enemySpawnTimer = 200;
+	this->wrogvelocity = 1;
+	this->time = 0.f;
+	this->gravity = 0.2f;
+	this->jumpStrength = -8.0f;
+	this->dinoYVelocity = 0.0f;
+	this->wrogacceleration = 0.2;
 }
 
 void Game::okno()
@@ -27,7 +33,6 @@ Game::Game()
 	
 	this->zmienne();
 	this->okno();
-	this->wrogowie();
 	this->defludzik();
 }
 
@@ -41,25 +46,6 @@ const bool Game::getWindowIsOpen() const
 	return this->window->isOpen();
 }
 
-void Game::choicewrog()
-{
-	
-
-	int x;
-	x = rand() % 2;
-	switch (x)
-	{
-	case 1:
-		//std::cout << x;
-		this->wrog.setSize(Vector2f(50.f, 70.f));
-		break;
-	default:
-		//std::cout << x;
-		this->wrog.setSize(Vector2f(30.f, 30.f));
-		break;
-	}
-
-}
 
 void Game::pullevents()
 {
@@ -88,35 +74,35 @@ void Game::pullevents()
 
 void Game::SpawnWrog()
 {
-	this->wrog.setPosition(this->window->getSize().x, this->window->getSize().y - this->wrog.getSize().y);
-	//std::cout << "aaaa" << std::endl;
 	int x;
 	x = rand() % 2;
 	switch (x)
 	{
 	case 1:
-		wrogowie1.push_back(std::make_unique<Arrow>());
+		wrogowie.push_back(std::make_unique<Arrow>());
 		break;
 	default:
-		wrogowie1.push_back(std::make_unique<Creeper>());
+		wrogowie.push_back(std::make_unique<Creeper>());
 		break;
 	}
-
-	this->wrogow.push_back(this->wrog);
 }
 
 void Game::UpdateWrog()
 {
-	choicewrog();
 	Time dttime = clock.restart();
 	float dt = dttime.asSeconds();
 	time += dt;
 
-	wrogvelocity =+wrogacceleration * time*0.5;
-	this->enemySpawnT =this->enemySpawnTimerMax - int(time*0.3);
-	
-	//std::cout <<"-" << enemySpawnT << " "<< int(time * 0.4)<<"- ";
-	
+	//increasing velocity
+	if ((wrogvelocity = +wrogacceleration * time * 0.45) >= 3)
+		wrogvelocity = +wrogacceleration * time * 0.45;
+	else
+		wrogvelocity = 3;
+
+	//decreseing distance between object to ehnance iteration
+	this->enemySpawnT =this->enemySpawnTimerMax - int(time);
+	std::cout << enemySpawnT << " ";
+
 	
 	
 	if (this->enemySpawnTimer >= this->enemySpawnT)
@@ -128,9 +114,14 @@ void Game::UpdateWrog()
 	else
 		this->enemySpawnTimer += 1.f;
 
-	for (auto& e : this->wrogow)
+	for (auto& e : this->wrogowie)
 	{
-		e.move(-wrogvelocity, 0.f);
+		e->move(sf::Vector2f(-wrogvelocity,0.f));
+	}
+
+	if (!wrogowie.empty() && (wrogowie[0]->getPosition()).x<-60)
+	{
+		wrogowie.erase(wrogowie.begin());
 	}
 
 }
@@ -160,11 +151,10 @@ void Game::Update()
 
 void Game::RenderWrog()
 {
-	for (auto& e : this->wrogow)
+	for (auto& e : this->wrogowie)
 	{
-		this->window->draw(e);
+		e->draw(*this->window);
 	}
-
 }
 
 void Game::Rendfloor()
@@ -175,31 +165,14 @@ void Game::Rendfloor()
 void Game::Render()
 {
 	this->window->clear(Color::Blue);
+
 	this->Rendfloor();
+
 	this->RenderWrog();
 
 	this->window->draw(ludzik);
 
 	this->window->display();
-}
-
-void Game::wrogowie()
-{
-	
-	int x;
-	x = rand() % 2;
-	switch (x)
-	{
-	case 1:
-		this->wrog.setSize(Vector2f(50.f, 70.f));
-		break;
-	default:
-		this->wrog.setSize(Vector2f(30.f, 30.f));
-		break;
-	}
-	
-	this->wrog.setFillColor(Color::Cyan);
-
 }
 
 void Game::defludzik()

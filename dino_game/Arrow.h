@@ -11,9 +11,10 @@ private:
 
 public:
 	Arrow();
+	~Arrow();
 	sf::Vector2f getPosition();
 	sf::FloatRect getGlobalBounds();
 	void draw(sf::RenderWindow& render);
-
+	void move(sf::Vector2f vec);
 };
 

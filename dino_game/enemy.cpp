@@ -4,3 +4,7 @@ enemy::enemy()
 {
 
 }
+
+enemy::~enemy()
+{
+}

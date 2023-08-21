@@ -8,9 +8,10 @@ private:
 
 public:
 	Creeper();
+	~Creeper();
 	sf::Vector2f getPosition();
 	sf::FloatRect getGlobalBounds();
 	void draw(sf::RenderWindow& render);
-
+	void move(sf::Vector2f vec);
 };
 

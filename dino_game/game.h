@@ -5,8 +5,10 @@
 #include<vector>
 #include<ctime>
 #include<sstream>
+
 #include "Arrow.h"
 #include "Creeper.h"
+#include "player.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -31,9 +33,11 @@ private:
 	
 	Arrow ar;
 	Creeper cr;
+	player pl;
 
 	Clock clock;
 	Time dttime;
+	sf::Clock AnimationClock;
 
 	float time;
 	float gravity;
@@ -42,6 +46,8 @@ private:
 	float wrogacceleration;
 	float wrogvelocity;
 	float dt;
+
+	float elapsed_time;
 
 	void zmienne();
 	void okno();

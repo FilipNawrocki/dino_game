@@ -68,8 +68,9 @@ void Game::pullevents()
 			break;
 
 		}
-
+		
 	}
+	elapsed_time = AnimationClock.restart().asSeconds();
 }
 
 void Game::SpawnWrog()
@@ -94,15 +95,13 @@ void Game::UpdateWrog()
 	time += dt;
 
 	//increasing velocity
-	if ((wrogvelocity = +wrogacceleration * time * 0.45) >= 3)
-		wrogvelocity = +wrogacceleration * time * 0.45;
+	if ((wrogvelocity = +wrogacceleration * time * 0.4) >= 3)
+		wrogvelocity = +wrogacceleration * time * 0.4;
 	else
 		wrogvelocity = 3;
 
 	//decreseing distance between object to ehnance iteration
 	this->enemySpawnT =this->enemySpawnTimerMax - int(time);
-	std::cout << enemySpawnT << " ";
-
 	
 	
 	if (this->enemySpawnTimer >= this->enemySpawnT)
@@ -114,11 +113,13 @@ void Game::UpdateWrog()
 	else
 		this->enemySpawnTimer += 1.f;
 
+	//
 	for (auto& e : this->wrogowie)
 	{
 		e->move(sf::Vector2f(-wrogvelocity,0.f));
 	}
 
+	//Delete useless object
 	if (!wrogowie.empty() && (wrogowie[0]->getPosition()).x<-60)
 	{
 		wrogowie.erase(wrogowie.begin());
@@ -146,6 +147,7 @@ void Game::Update()
 	this->pullevents();
 	this->UpdateWrog();
 	this->UpdateLudz();
+	pl.Update(elapsed_time);
 
 }
 
@@ -169,6 +171,8 @@ void Game::Render()
 	this->Rendfloor();
 
 	this->RenderWrog();
+
+	this->pl.draw(*window);
 
 	this->window->draw(ludzik);
 

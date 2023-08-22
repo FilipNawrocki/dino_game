@@ -5,7 +5,6 @@ class Creeper : public enemy
 {
 private:
 	sf::RectangleShape self;
-
 public:
 	Creeper();
 	~Creeper();

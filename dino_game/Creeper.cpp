@@ -7,6 +7,8 @@ Creeper::Creeper()
 	this->sprite.setTextureRect(sf::IntRect(330, 0, 27, 45));
 	this->sprite.setScale(sf::Vector2f(1.3, 1.6));
 	this->self.setPosition(sf::Vector2f(805.f, 500.f));
+	this->self.setSize(sf::Vector2f(27,43));
+	this->self.setScale(sf::Vector2f(1.3, 1.6));
 
 }
 

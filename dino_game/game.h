@@ -27,6 +27,8 @@ private:
 
 	sf::Texture texture;
 	sf::Sprite sprite;
+	sf::Font font;
+	sf::Text scoretext;
 	std::vector<std::unique_ptr<enemy>> wrogowie;
 
 	RectangleShape ludzik;
@@ -55,6 +57,7 @@ private:
 
 	int points;
 
+
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 	float enemySpawnT;
@@ -68,12 +71,18 @@ public:
 
 	void pullevents();
 	void SpawnWrog();
+
+	void EndGame();
+
 	void UpdateWrog();
 	void UpdateLudz();
+	void UpdatePoints();
 	void Update();
+
 	void RenderWrog();
 	void Rendfloor();
 	void Render();
+
 	void defludzik();
 
 };

@@ -34,6 +34,13 @@ Game::Game()
 	this->zmienne();
 	this->okno();
 	this->defludzik();
+
+	font.loadFromFile("strikefighter.ttf");
+	scoretext.setFont(font);
+	scoretext.setPosition(40, 40);
+	scoretext.setCharacterSize(24);
+	scoretext.setFillColor(sf::Color::White);
+	scoretext.setString("Score: 0");
 }
 
 Game::~Game()
@@ -124,7 +131,16 @@ void Game::UpdateWrog()
 	{
 		wrogowie.erase(wrogowie.begin());
 	}
-
+	
+	for (auto& a : this->wrogowie)
+	{
+		
+		if (pl.getGlobalBounds().intersects(a->getGlobalBounds()))
+		{
+			std::cout << "koniec gry chuju" << std::endl;
+		}
+	}
+	
 }
 
 void Game::UpdateLudz()
@@ -141,13 +157,14 @@ void Game::UpdateLudz()
 
 }
 
-
 void Game::Update()
 {
 	this->pullevents();
 	this->UpdateWrog();
 	this->UpdateLudz();
-	pl.Update(elapsed_time);
+	this->EndGame();
+	pl.Update(elapsed_time,skok);
+	this->UpdatePoints();
 
 }
 
@@ -167,15 +184,10 @@ void Game::Rendfloor()
 void Game::Render()
 {
 	this->window->clear(Color::Blue);
-
 	this->Rendfloor();
-
 	this->RenderWrog();
-
 	this->pl.draw(*window);
-
-	this->window->draw(ludzik);
-
+	this->window->draw(scoretext);
 	this->window->display();
 }
 
@@ -184,5 +196,24 @@ void Game::defludzik()
 	this->ludzik.setFillColor(Color::Black);
 	this->ludzik.setSize(Vector2f(50.f,90.f));
 	this->ludzik.setPosition(200.f, this->window->getSize().y - this->ludzik.getSize().y-31);
+}
+
+void Game::EndGame()
+{
+	for (auto& a:this->wrogowie)
+	{
+		if (pl.getGlobalBounds().intersects(a->getGlobalBounds()))
+		{
+			std::cout<<"koniec gry chuju"<<std::endl;
+			std::cout << points;
+			this->window->close();
+		}
+	}
+}
+
+void Game::UpdatePoints()
+{
+	points = points + 1    ;
+	scoretext.setString("Score: " + std::to_string(points));
 }
 

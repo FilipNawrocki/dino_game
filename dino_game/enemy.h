@@ -15,6 +15,6 @@ public:
 	virtual void draw(sf::RenderWindow& render) = 0;
 	virtual void move(sf::Vector2f vec) = 0;
 	virtual sf::Vector2f getPosition() = 0;
-
+	virtual sf::FloatRect getGlobalBounds() = 0;
 };
 

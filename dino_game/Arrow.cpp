@@ -17,6 +17,9 @@ Arrow::Arrow()
 		break;
 	}
 
+	this->self.setSize(sf::Vector2f(47, 15));
+	this->self.setScale(sf::Vector2f(1.2, 1.2));
+
 	this->texture.loadFromFile("y27zIvC.png");
 	this->sprite.setTexture(texture);
 	this->sprite.setTextureRect(sf::IntRect(133,0,47,15));

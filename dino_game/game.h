@@ -21,9 +21,9 @@ using namespace sf;
 class Game
 {
 private:
-	RenderWindow *window;
-	VideoMode vm;
-	Event ev;
+	sf::RenderWindow *window;
+	sf::VideoMode vm;
+	sf::Event ev;
 
 	sf::Texture texture;
 	sf::Sprite sprite;
@@ -31,14 +31,14 @@ private:
 	sf::Text scoretext;
 	std::vector<std::unique_ptr<enemy>> wrogowie;
 
-	RectangleShape ludzik;
+	sf::RectangleShape ludzik;
 	
 	Arrow ar;
 	Creeper cr;
 	player pl;
 
-	Clock clock;
-	Time dttime;
+	sf::Clock clock;
+	sf::Time dttime;
 	sf::Clock AnimationClock;
 
 	float time;
@@ -50,18 +50,24 @@ private:
 	float dt;
 
 	float elapsed_time;
-
-	void zmienne();
-	void okno();
 	bool skok;
 
 	int points;
-
 
 	float enemySpawnTimer;
 	float enemySpawnTimerMax;
 	float enemySpawnT;
 
+	void zmienne();
+	void okno();
+	void RenderWrog();
+	void Rendfloor();
+	void pullevents();
+	void SpawnWrog();
+	void EndGame();
+	void UpdateWrog();
+	void UpdateLudz();
+	void UpdatePoints();
 
 public:
 	Game();
@@ -69,20 +75,9 @@ public:
 
 	const bool getWindowIsOpen() const;
 
-	void pullevents();
-	void SpawnWrog();
-
-	void EndGame();
-
-	void UpdateWrog();
-	void UpdateLudz();
-	void UpdatePoints();
 	void Update();
-
-	void RenderWrog();
-	void Rendfloor();
+	int getPoints();
 	void Render();
-
 	void defludzik();
 
 };

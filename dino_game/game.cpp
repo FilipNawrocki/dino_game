@@ -12,11 +12,24 @@ void Game::zmienne()
 	this->jumpStrength = -8.0f;
 	this->dinoYVelocity = 0.0f;
 	this->wrogacceleration = 0.2;
+
+	this->texture.loadFromFile("y27zIvC.png");
+	this->sprite.setTexture(texture);
+	this->sprite.setTextureRect(sf::IntRect(0, 57, 600, 11));
+	this->sprite.setScale(sf::Vector2f(3, 3));
+	this->sprite.setPosition(sf::Vector2f(0.f, 567.f));
+
+
+	font.loadFromFile("strikefighter.ttf");
+	scoretext.setFont(font);
+	scoretext.setPosition(40, 40);
+	scoretext.setCharacterSize(24);
+	scoretext.setFillColor(sf::Color::White);
+	scoretext.setString("Score: 0");
 }
 
 void Game::okno()
 {
-
 	this->window = new RenderWindow(VideoMode(800, 600), "dino_game", Style::Titlebar | Style::Close);
 	
 	this->window->setFramerateLimit(60);
@@ -25,22 +38,11 @@ void Game::okno()
 
 Game::Game()
 {
-	this->texture.loadFromFile("y27zIvC.png");
-	this->sprite.setTexture(texture);
-	this->sprite.setTextureRect(sf::IntRect(0, 57, 600, 11));
-	this->sprite.setScale(sf::Vector2f(3, 3));
-	this->sprite.setPosition(sf::Vector2f(0.f, 567.f));
 	
 	this->zmienne();
 	this->okno();
 	this->defludzik();
 
-	font.loadFromFile("strikefighter.ttf");
-	scoretext.setFont(font);
-	scoretext.setPosition(40, 40);
-	scoretext.setCharacterSize(24);
-	scoretext.setFillColor(sf::Color::White);
-	scoretext.setString("Score: 0");
 }
 
 Game::~Game()
@@ -132,15 +134,6 @@ void Game::UpdateWrog()
 		wrogowie.erase(wrogowie.begin());
 	}
 	
-	for (auto& a : this->wrogowie)
-	{
-		
-		if (pl.getGlobalBounds().intersects(a->getGlobalBounds()))
-		{
-			std::cout << "koniec gry chuju" << std::endl;
-		}
-	}
-	
 }
 
 void Game::UpdateLudz()
@@ -204,7 +197,6 @@ void Game::EndGame()
 	{
 		if (pl.getGlobalBounds().intersects(a->getGlobalBounds()))
 		{
-			std::cout<<"koniec gry chuju"<<std::endl;
 			std::cout << points;
 			this->window->close();
 		}
@@ -215,5 +207,10 @@ void Game::UpdatePoints()
 {
 	points = points + 1    ;
 	scoretext.setString("Score: " + std::to_string(points));
+}
+
+int Game::getPoints()
+{
+	return points;
 }
 

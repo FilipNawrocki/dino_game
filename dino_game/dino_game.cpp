@@ -1,21 +1,22 @@
 ﻿#include <iostream>
 #include "game.h"
-#include "enemy.h"
+#include "StartWindow.h"
 using namespace sf;
 
 int main()
 {
-	Game game;
+	//Game game;
+	StartWindow startwindow;
 	//srand(static_cast<unsigned>(time(NULL)));
 
-	while (game.getWindowIsOpen())
+	while (startwindow.getWindowIsOpen())
 	{
 	
 
-		game.Update();
+		startwindow.Update();
 
 
-		game.Render();
+		startwindow.Render();
 
 	
 	}
